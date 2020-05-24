@@ -1,4 +1,4 @@
-import Taro, { useState, useEffect, useRouter, Events } from '@tarojs/taro'
+import Taro, { useState, useEffect, useRouter } from '@tarojs/taro'
 import { View, Form, Input, Picker, ScrollView, Textarea, Image, Button } from '@tarojs/components'
 import { AtList, AtListItem } from 'taro-ui'
 import { formatToday, createUniqueID } from '../../utils/timeFormat'
@@ -174,7 +174,6 @@ export default function AddDay() {
                         </View>
                     </View>
                     <View className="type">
-                        {/* <Picker name="type" mode="selector" range={typeRange} value={0} onChange={onTypeChange}> */}
                         <AtList hasBorder={false}>
                             <AtListItem
                                 onClick={changeType}
@@ -184,7 +183,6 @@ export default function AddDay() {
                                 extraText={eventData.type}
                             />
                         </AtList>
-                        {/* </Picker> */}
                     </View>
                     <View className="setTop">
                         <AtList hasBorder={false}>
