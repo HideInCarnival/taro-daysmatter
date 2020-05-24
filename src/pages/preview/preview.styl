@@ -1,0 +1,130 @@
+.preview {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  position: relative;
+  color: #eee
+}
+.preview .mask {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(10, 10, 10, .7);
+}
+
+.header {
+  height: 8vh;
+  text-align: center;
+  line-height: 8vh;
+}
+.window 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .pic
+    position relative
+    .remark
+      white-space: normal
+      word-break: break-all
+    &.heng 
+      height: 68vh;
+      width: 68vw;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .remark
+        position: absolute
+        left 20px
+        top: 20px
+      .title
+        display: flex;
+        font-size: 37rpx;
+        .tittle_text
+          font-weight: 400;
+        .dis
+            font-weight: 300;
+      .daysNum
+        display: flex;
+        view:nth-of-type(1)
+          font-size: 80rpx;
+          font-weight: 500;
+      .date 
+        display: flex;
+        font-size: 31rpx;
+        font-weight: 270;
+    .daysNum .icon 
+      height: 35rpx;
+      width: 55rpx;
+      background-color: rgb(210,50,50);
+      font-size: 18rpx;
+      text-align: center;
+      line-height: 35rpx;
+      margin-left: 10rpx;
+      margin-top: 10rpx;
+    &.shu
+      height: 68vh;
+      width: 68vw;
+      background-size: cover;
+      position: relative;
+      .remark
+        position: absolute
+        height: 18vh
+        width: 33vw
+        top: 20px
+        left: 20px
+        -webkit-writing-mode: vertical-lr;
+        -ms-writing-mode: tb-lr;
+        writing-mode: vertical-lr;
+      .title
+        position: absolute;
+        right: 3vw;
+        top: 6vh;
+        display: flex;
+        font-size: 37rpx;
+        writing-mode: vertical-rl;
+        .title_text
+          font-weight: 400
+        .dis
+          font-weight: 300
+      .daysNum
+        display: flex;
+        position: absolute;
+        bottom: 7vh;
+        left: 10vw;
+        view:nth-of-type(1)
+          font-size: 90rpx;
+          font-weight: 400;
+      .date
+        position: absolute;
+        display: flex;
+        font-size: 31rpx;
+        font-weight: 270;
+        writing-mode: vertical-rl;
+        top: 6vh;
+        right: 9vw;
+/* 横纵选择 */
+.formatChoose 
+  margin: 3vh 0;
+  height: 6vh;
+  line-height: 6vh;
+  text-align: center;
+  display: flex;
+  border: 2rpx solid rgb(130, 130, 130);
+  view
+    flex: 1;
+    text-align: center;
+    font-size: 30rpx;
+    font-weight: 250;
+    &.active
+      background-color: rgb(130, 130, 130);
+.footer 
+  display: flex;
+  justify-content: center;
+  .save
+    margin-top: 1vh;
+    height: 5vh;
+    width: 90vw;
+    background-color: rgb(80,170,70);
+    text-align: center;
+    line-height: 5vh;

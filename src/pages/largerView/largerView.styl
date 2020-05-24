@@ -1,0 +1,121 @@
+.largerView {
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  background-size: cover;
+
+}
+.header {
+  height: 7vh;
+  display: flex;
+  justify-content: flex-end;
+  line-height: 7vh;
+  font-size: 35rpx;
+  font-weight: 320;
+  padding-right: 5vw;
+}
+.window {
+  height: 93vh;
+  box-sizing: border-box;
+}
+.window .remark {
+  white-space: normal;
+  word-break: break-all;
+}
+.window .daysNum .icon {
+  height: 35rpx;
+  width: 55rpx;
+  background-color: rgb(210,50,50);
+  font-size: 22rpx;
+  text-align: center;
+  line-height: 35rpx;
+  margin-left: 10rpx;
+  margin-top: 10rpx;
+}
+.window.heng {
+  display: flex;
+  flex-direction: column;
+}
+.window.heng .remark {
+  height: 28vh;
+  padding-left: 4vw;
+  padding-top: 4vh;
+  font-size: 30rpx;
+  font-weight: 300;
+  padding-right: 50vw;
+}
+.window.heng .text .title {
+  display: flex;
+  font-size: 44rpx;
+  justify-content: center;
+}
+.window.heng .text .title view:nth-of-type(1){
+  font-weight: 400;
+}
+.window.heng .text .title view:nth-of-type(2){
+  font-weight: 300;
+}
+.window.heng .text .daysNum {
+  display: flex;
+  justify-content: center;
+}
+.window.heng .text .daysNum view:nth-of-type(1) {
+  font-size: 87rpx;
+  font-weight: 500;
+}
+.window.heng .text .date {
+  display: flex;
+  justify-content: center;
+  font-size: 38rpx;
+  font-weight: 270;
+}
+/* shu */
+window.shu {
+  position: relative;
+}
+.window.shu .remark {
+  height: 28vh;
+  width: 50vw;
+  padding-top: 4vh;
+  padding-left: 4vw;
+  position: absolute;
+  writing-mode: vertical-lr;
+  left: 0;
+  top: 0;
+}
+.window.shu .title {
+  position: absolute;
+  right: 9vw;
+  top: 13vh;
+  display: flex;
+  font-size: 37rpx;
+  writing-mode: vertical-rl;
+}
+.window.shu .title view:nth-of-type(1){
+  font-size: 45rpx;
+  font-weight: 400;
+}
+.window.shu .title view:nth-of-type(2){
+  font-size: 45rpx;
+  font-weight: 300;
+}
+.window.shu .daysNum {
+  display: flex;
+  position: absolute;
+  bottom: 15vh;
+  left: 16vw;
+}
+
+.window.shu .daysNum view:nth-of-type(1) {
+  font-size: 110rpx;
+  font-weight: 400;
+}
+.window.shu .date {
+  position: absolute;
+  display: flex;
+  font-size: 32rpx;
+  font-weight: 270;
+  writing-mode: vertical-rl;
+  top: 13vh;
+  right: 17vw;
+}

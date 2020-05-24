@@ -1,0 +1,110 @@
+entirePaddingLeft = 24px
+normalSize = 30px
+normalWeight = 300
+listItemBack = rgba(60, 60, 60, .5)
+inputBack = rgba(45, 45, 45, .5)
+borderBottom = 1px solid #eee
+.addDay 
+    color: #ffffff
+    width: 100%
+    height: 100%
+    position: relative
+    .header
+        box-sizing: border-box
+        height: 8vh
+        line-height: 8vh
+        text-align: center
+        background-color: listItemBack
+        font-size: 35px
+        font-weight: 400
+    .add_form 
+        height: 92vh
+        background-color: rgba(0, 0, 0, .5)
+        input 
+            height: 6vh
+            padding-left: entirePaddingLeft
+            font-size: normalSize
+            font-weight: normalWeight
+        .holder
+            color: rgb(144, 144, 144)
+            font-size: 28px
+            font-weight: 300
+        .title
+            background: inputBack
+            border-bottom: borderBottom
+        .at-list 
+            background-color: listItemBack
+            border: none
+            font-size: normalSize
+            font-weight: normalWeight
+            .at-list__item
+                color: #fafafa
+        .aimDay
+            border-bottom: 1px solid #eee
+        .type
+            border-bottom: borderBottom
+        .setTop
+            margin-bottom: 20px
+        .format
+            background-color: listItemBack
+            padding-left: entirePaddingLeft
+            border-bottom: borderBottom
+            .text
+                height: 6vh
+                line-height: 6vh
+                font-size: normalsize 
+                font-weight: normalWeight
+            .pics
+                height: 120px
+                padding: 0 0 20px 0
+                display: flex
+                box-sizing: border-box
+                .add_pic
+                    width: 100px
+                    height 100px
+                    background-color: rgb(116,116,116)
+                    border-radius: 20px
+                    text-align: center
+                    font-size: 25px
+                    .at-icon 
+                        font-size: 60px                        
+                .choose_pic
+                    width: 500px
+                    height: 100px
+                    margin-left: 20px
+                    box-sizing: border-box
+                    white-space: nowrap
+                    .pic-item
+                        width: 100px
+                        height: 100px
+                        border-radius: 20px
+                        margin-right: 15px
+                        box-sizing: border-box
+                        &.active
+                            border 3px solid rgb(100, 200, 100)
+        .remarks
+            .writeArea
+                box-sizing: border-box
+                width: 100%
+                height: 20vh
+                padding: 20px 24px 0 24px
+                font-size: normalSize
+                font-weight: normalWeight 
+                background-color: inputBack
+        button 
+            color:#eee
+            font-size: 32px
+            font-weight: 400
+            width: 90vw
+            background-color: rgba(100, 200, 100, .7)
+            margin-top: 3vh
+            &.btn-delete
+                background-color: rgba(230, 90, 70, .7)
+            
+                
+
+
+            
+            
+        
+            
