@@ -1,8 +1,9 @@
 import Taro, {useState, useEffect} from '@tarojs/taro'
-import { View, Text, ScrollView, Image, Button} from '@tarojs/components'
+import { View, Text, ScrollView, Button} from '@tarojs/components'
 import { judgeMoveDeg, judgeMoveDerection } from '../../utils/judgeMoveAction'
 import { getDaysDis, formatToday, transDate } from '../../utils/timeFormat'
 import { moveDerection, commemoration } from '../../typings/types'
+import AddPic from '../../components/addPic'
 import initConfig from '../../init.config'
 import './index.styl'
 
@@ -95,6 +96,20 @@ export default function Index() {
     })
   }
 
+  const addNewBg = async () => {
+    const res = await Taro.chooseImage({
+      count: 1,
+      sourceType: ['album']
+    });
+    const tempPicPath = res.tempFilePaths[0];
+    const newBgs = [...backgrounds, tempPicPath];
+    setBackgrounds(newBgs);
+    await Taro.setStorage({
+        key: 'backgrounds',
+        data: newBgs
+    })
+  }
+
   const setTopNormal = () => {
     const top: commemoration[] = [];
     const normal: commemoration[] = [];
@@ -143,12 +158,6 @@ export default function Index() {
       url: `../largerView/largerView?id=${ele.id}`
     })
   }
-  const imgItems = backgrounds.map((ele, index) => {
-    return (
-        <Image  onClick={() => {changeFormat(index)}} key={ele} className={`pic-item ${mainFormat === ele ? 'active': ''}`} src={ele} />
-    )
-  })
-
   const typeItems = daysType.map((ele, index) => {
     return (
       <View className="type-item-wrapper" key={ele.name}>
@@ -196,7 +205,7 @@ export default function Index() {
     return (
       <View className="days-matter">
         <View className={`inner-moveable ${isFormat === true ? 'slide-right' : ''}`} onTouchMove={e => {judgeMoveAction(e)}} onTouchStart={e => {getTouchStart(e)}}>
-          <View className="format-set" style={{backgroundImage: `url(${mainFormat})`, backgroundSize: '100vw 100vh'}}>
+          <View className="format-set" style={{backgroundImage: `url(${mainFormat})`, backgroundSize: 'cover'}}>
             <View className="format-set-wrapper">
             <View className="header-wrapper">
               <View className="close-wrapper">
@@ -211,17 +220,7 @@ export default function Index() {
                   <View className="title-icon at-icon at-icon-camera" />
                   <Text>版式</Text>
                 </View>
-                <View className="img-area">
-                  <View className="add-pic">
-                    <View>
-                        <View className='at-icon at-icon-add'></View>
-                    </View>
-                    <View>添加</View>
-                  </View>
-                  <ScrollView scrollX={true} className="choose_pic">
-                      {imgItems}
-                  </ScrollView>
-                </View>
+                <AddPic size="little" handleClick={changeFormat} activeBg={mainFormat} onAdd={addNewBg} backgrounds={backgrounds}/>
               </View>
               <Button className="add" onClick={addEvent}>+  添加事件</Button>
             </View>

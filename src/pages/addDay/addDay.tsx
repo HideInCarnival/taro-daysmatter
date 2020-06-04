@@ -1,7 +1,8 @@
 import Taro, { useState, useEffect, useRouter } from '@tarojs/taro'
-import { View, Form, Input, Picker, ScrollView, Textarea, Image, Button } from '@tarojs/components'
+import { View, Form, Input, Picker, Textarea, Button } from '@tarojs/components'
 import { AtList, AtListItem } from 'taro-ui'
 import { formatToday, createUniqueID } from '../../utils/timeFormat'
+import AddPic from '../../components/addPic'
 import './addDay.styl'
 import initConfig from '../../init.config'
 export default function AddDay() {
@@ -133,12 +134,20 @@ export default function AddDay() {
         }
         return false
     }
-
-    const toPreview = (index) => {
-        setEventData({
-            ...eventData,
-            backgroundUrl: backgrounds[index]
+    const addNewBg = async () => {
+        const res = await Taro.chooseImage({
+          count: 1,
+          sourceType: ['album']
+        });
+        const tempPicPath = res.tempFilePaths[0];
+        const newBgs = [...backgrounds, tempPicPath];
+        setBackgrounds(newBgs);
+        await Taro.setStorage({
+            key: 'backgrounds',
+            data: newBgs
         })
+    }
+    const toPreview = (index) => {
         Taro.navigateTo({
             url: `../preview/preview?backgroundUrl=${backgrounds[index]}&title=${eventData.title}&aimDate=${eventData.aimDate}&remarks=${eventData.remarks}&isTransverse=${eventData.isTransverse}`,
             events: {
@@ -151,11 +160,6 @@ export default function AddDay() {
             }
         })
     }
-    const imgItems = backgrounds.map((ele, index) => {
-        return (
-            <Image onClick={() => {toPreview(index)}} key={ele} className={`pic-item ${eventData.backgroundUrl === ele ? 'active': ''}`} src={ele} />
-        )
-    })
     return (
         <View className="addDay" style={{backgroundImage: "url(http://q9zrzlbr5.bkt.clouddn.com/bg1.jpg)", backgroundSize: "cover"}}>
             <View className="header">添加新的纪念日</View>
@@ -198,17 +202,7 @@ export default function AddDay() {
                     </View>
                     <View className="format">
                         <View className="text">版式</View>
-                        <View className="pics">
-                            <View className="add_pic">
-                                <View>
-                                    <View className='at-icon at-icon-add'></View>
-                                </View>
-                                <View>添加</View>
-                            </View>
-                            <ScrollView scrollX={true} className="choose_pic">
-                                {imgItems}
-                            </ScrollView>
-                        </View>
+                        <AddPic size="large" handleClick={toPreview} activeBg={eventData.backgroundUrl} backgrounds={backgrounds} onAdd={addNewBg} />
                     </View>
                     <View className="remarks">
                         <Textarea name="remarks" value={eventData.remarks} onInput={(e) => {onRemarksChange(e)}} className="writeArea" showConfirmBar={false} maxlength={30} placeholder="备注:(请输入少于30个字符)" placeholder-class="holder"></Textarea>

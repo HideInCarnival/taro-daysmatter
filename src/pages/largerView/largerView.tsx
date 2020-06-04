@@ -46,7 +46,7 @@ export default function LargerView() {
         return [dateFromTrans, daysDis];
     }
     return (
-        <View className="largerView" style={{backgroundImage:'url(http://q9zrzlbr5.bkt.clouddn.com/bg1.jpg)'}}>
+        <View className="largerView" style={{backgroundImage: `url(${thisEvent.backgroundUrl})`}}>
             <View className="header">
                 <View onClick={edit}>编辑</View>
             </View>

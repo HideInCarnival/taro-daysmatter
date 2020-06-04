@@ -11,6 +11,10 @@ import 'taro-ui/dist/style/index.scss'
 // }
 
 class App extends Component {
+  constructor() {
+    super()
+    this.init()
+  }
   async checkStorage(name: string) {
     const result = await Taro.getStorage({
       key: name
@@ -63,7 +67,6 @@ class App extends Component {
     }
   }
   componentDidMount () {
-    this.init();
   }
 
   componentDidShow () {}
