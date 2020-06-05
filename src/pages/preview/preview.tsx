@@ -52,7 +52,6 @@ export default function Preview() {
         <View className="preview" style={{ backgroundImage: `url(${eventData.backgroundUrl})` }}>
             <View className="mask">
                 <View className="header">
-                    预览图片
                 </View>
                 <View className="window">
                     <View className={`pic ${eventData.isTransverse===true?'heng':'shu'}`} style={{ backgroundImage: `url(${eventData.backgroundUrl})` }}>
@@ -82,4 +81,8 @@ export default function Preview() {
             </View>
         </View>
     )
+}
+
+Preview.config = {
+    "navigationBarTitleText": "预览"
 }

@@ -1,56 +1,29 @@
 import Taro, {useState, useEffect} from '@tarojs/taro'
+import { useSelector, useDispatch } from '@tarojs/redux'
 import { View, Text, ScrollView, Button} from '@tarojs/components'
 import { judgeMoveDeg, judgeMoveDerection } from '../../utils/judgeMoveAction'
 import { getDaysDis, formatToday, transDate } from '../../utils/timeFormat'
 import { moveDerection, commemoration } from '../../typings/types'
 import AddPic from '../../components/addPic'
-import initConfig from '../../init.config'
+import { InitConfig } from '../../typings/types'
+import { createSetMainFormatAction } from '../../store/actions/mainformat-actions'
+import { createSetBgsAction } from '../../store/actions/bgs-actions'
 import './index.styl'
 
 export default function Index() {
+  const dispatch = useDispatch();
   const today = formatToday('YYYY-MM-DD');
   const com: commemoration[] = [];
   const [isFormat, setIsFormat] = useState(false);
-  const [events, setEvents] = useState(initConfig.eventArr);
+  const events = useSelector(state => (state as InitConfig).eventArr)
+  const daysType = useSelector(state => [{name: '全部'}, ...(state as InitConfig).daysType])
+  const backgrounds = useSelector( state => (state as InitConfig).defaultBg)
+  const mainFormat = useSelector( state => (state as InitConfig).mainFormat)
   const [startX, setStartX] = useState(0);
   const [startY, setStartY] = useState(0);
-  const [mainFormat, setMainFormat] = useState('');
-  const [backgrounds, setBackgrounds] = useState(initConfig.defaultBg);
-  const [daysType, setDaysType] = useState(initConfig.daysType);
   const [chooseType, setChooseType] = useState(0);
   const [topList, setTopList] = useState(com);
   const [normalList, setNormalList] = useState(com);
-
-  useEffect(() => {
-    const getDefaultFormat = async () => {
-      const result = await Taro.getStorage({
-        key: 'mainFormat'
-      })
-      setMainFormat(result.data);
-    }
-
-    const getEventData = async () => {
-      const result = await Taro.getStorage({key: 'events'});
-      setEvents(result.data);
-    }
-
-    const getBgs = async () => {
-      const result = await Taro.getStorage({key: 'backgrounds'});
-      setBackgrounds(result.data)
-    }
-
-    const getTypes = async () => {
-      const result = await Taro.getStorage({
-        key: 'daysType'
-      })
-      setDaysType([{name: '全部'},...result.data]);
-    }
-
-    getDefaultFormat();
-    getTypes();
-    getBgs();
-    getEventData();
-  }, [])
 
   useEffect(() => {
     setTopNormal();
@@ -89,11 +62,7 @@ export default function Index() {
   }
 
   const changeFormat = async (index) => {
-    setMainFormat(backgrounds[index]);
-    await Taro.setStorage({
-      key: 'mainFormat',
-      data: backgrounds[index]
-    })
+    dispatch(createSetMainFormatAction(backgrounds[index]))
   }
 
   const addNewBg = async () => {
@@ -103,11 +72,7 @@ export default function Index() {
     });
     const tempPicPath = res.tempFilePaths[0];
     const newBgs = [...backgrounds, tempPicPath];
-    setBackgrounds(newBgs);
-    await Taro.setStorage({
-        key: 'backgrounds',
-        data: newBgs
-    })
+    dispatch(createSetBgsAction(newBgs))
   }
 
   const setTopNormal = () => {
@@ -209,7 +174,7 @@ export default function Index() {
             <View className="format-set-wrapper">
             <View className="header-wrapper">
               <View className="close-wrapper">
-                <View className="close at-icon at-icon-close-circle" />
+                <View className="close at-icon at-icon-close-circle" onClick={slideToLeft}/>
               </View>
             </View>
               <View className="type-list">
@@ -226,10 +191,10 @@ export default function Index() {
             </View>
           </View>
           <View className="main-content" style={{backgroundImage:`url(${mainFormat})`, backgroundSize: 'cover'}}>
-            <View className="header">
+            {/* <View className="header">
               <View className="logo">倒数日</View>
               <View className="add" onClick={addEvent}>+添加</View>
-            </View>
+            </View> */}
             <View className="body">
               <ScrollView className="items" scrollY={true}>
                 <View className="top-list">

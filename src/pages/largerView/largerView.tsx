@@ -1,24 +1,15 @@
 import Taro, { useEffect , useState, useRouter} from '@tarojs/taro'
+import { useSelector } from '@tarojs/redux'
 import { View } from '@tarojs/components'
-import { commemoration } from '../../typings/types'
 import initConfig from '../../init.config';
 import { transDate, formatToday, getDaysDis } from '../../utils/timeFormat'
+import { InitConfig } from '../../typings/types'
 import './largerView.styl'
 export default function LargerView() {
-    const com: commemoration[] = [];
     const $router = useRouter();
-    const [events, setEvents] = useState(com)
+    const events = useSelector(state => (state as InitConfig).eventArr)
     const [thisEvent, setThisEvent] = useState(initConfig.eventArr[0])
     let [dateFromTrans, daysDis] = handleDate();
-    useEffect(() => {
-        const getEvents = async () => {
-            const result = await Taro.getStorage({
-                key: 'events'
-            })
-            setEvents(result.data);
-        }
-        getEvents();
-    }, [])
     useEffect(() => {
         const setEvent = () => {
             const query = $router.params;
@@ -29,9 +20,10 @@ export default function LargerView() {
         }
         setEvent();
     }, [events])
+
     useEffect(() => {
         [dateFromTrans, daysDis] = handleDate();
-    }, [thisEvent])
+    }, [thisEvent.aimDate])
 
     const edit = () => {
         Taro.navigateTo({
@@ -40,7 +32,6 @@ export default function LargerView() {
     }
 
     function handleDate() {
-        
         const dateFromTrans = transDate(thisEvent.aimDate, 'YYYY年M月D日' ,true);
         const daysDis = getDaysDis(thisEvent.aimDate, formatToday("YYYY-MM-DD"));
         return [dateFromTrans, daysDis];

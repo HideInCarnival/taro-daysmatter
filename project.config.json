@@ -2,7 +2,7 @@
   "miniprogramRoot": "./dist",
   "projectname": "taro-daysmatter",
   "description": "daysmatter",
-  "appid": "touristappid",
+  "appid": "wxfa1e49f78e5de72c",
   "setting": {
     "urlCheck": true,
     "es6": false,

@@ -1,17 +1,22 @@
 import Taro, { useState, useEffect, useRouter } from '@tarojs/taro'
+import { useDispatch, useSelector } from '@tarojs/redux'
 import { View, Form, Input, Picker, Textarea, Button } from '@tarojs/components'
 import { AtList, AtListItem } from 'taro-ui'
 import { formatToday, createUniqueID } from '../../utils/timeFormat'
 import AddPic from '../../components/addPic'
+import { createSetEventsAction } from '../../store/actions/events-actions'
+import { createSetBgsAction } from '../../store/actions/bgs-actions'
+import { InitConfig } from '../../typings/types'
 import './addDay.styl'
-import initConfig from '../../init.config'
 export default function AddDay() {
     const today = formatToday('YYYY-MM-DD')
+    const dispatch = useDispatch()
     const $router = useRouter()
     const id = $router.params.id;
-    const [typeRange, setTypeRange] = useState(initConfig.daysType)
-    const [backgrounds, setBackgrounds] = useState(initConfig.defaultBg)
-    const [events, setEvents] = useState(initConfig.eventArr)
+    const typeRange = useSelector(state => (state as InitConfig).daysType)
+    const backgrounds = useSelector(state => (state as InitConfig).defaultBg)
+    const events = useSelector(state => (state as InitConfig).eventArr)
+    const mainFormat = useSelector(state => (state as InitConfig).mainFormat)
     const [eventData, setEventData] = useState({
         id: createUniqueID(),
         title: '',
@@ -25,25 +30,12 @@ export default function AddDay() {
     });
     // getTypeRange
     useEffect(() => {
-        const getRangeType = async () => {
-            const result = await Taro.getStorage({key: 'daysType'});
-            setTypeRange(result.data)
-        }
-        const getBgs = async () => {
-            const result = await Taro.getStorage({key: 'backgrounds'});
-            setBackgrounds(result.data)
-        }
         const editEvent = async () => {
-            const result = await Taro.getStorage({key: 'events'});
-            const events = result.data;
-            setEvents(result.data);
             if(events.length > 0) {
                 const goodEvent = events.filter(ele => ele.id === id)
                 setEventData(goodEvent[0])
             }
         }
-        getRangeType();
-        getBgs();
         if(id) {
             editEvent();
         }
@@ -92,26 +84,17 @@ export default function AddDay() {
     }
 
     const formSubmit = async () => {
-        const events = await Taro.getStorage({
-            key: 'events'
-        })
         if(id) {
-            let tmpEvents = [...events.data]
+            let tmpEvents = [...events]
             for(let i = 0;i < tmpEvents.length; i++) {
                 if(tmpEvents[i].id === id) {
                     tmpEvents[i] = eventData
                 }
             }
-            await Taro.setStorage({
-                key: 'events',
-                data: tmpEvents
-            })
+            dispatch(createSetEventsAction(tmpEvents))
         }else {
-            if (events.data) {
-                await Taro.setStorage({
-                    key: 'events',
-                    data: [...events.data, eventData]
-                })
+            if (events) {
+                dispatch(createSetEventsAction([...events, eventData]))
             }else {
                 console.log('without an event array!');
             }
@@ -124,10 +107,7 @@ export default function AddDay() {
     const deleteEvent = async () => {
         if (id) {
             const newEvents = events.filter(ele => ele.id !== id);
-            await Taro.setStorage({
-                key: 'events',
-                data: newEvents
-            })
+            dispatch(createSetEventsAction(newEvents))
             Taro.reLaunch({
                 url: '../index/index'
             })
@@ -141,11 +121,7 @@ export default function AddDay() {
         });
         const tempPicPath = res.tempFilePaths[0];
         const newBgs = [...backgrounds, tempPicPath];
-        setBackgrounds(newBgs);
-        await Taro.setStorage({
-            key: 'backgrounds',
-            data: newBgs
-        })
+        dispatch(createSetBgsAction(newBgs))
     }
     const toPreview = (index) => {
         Taro.navigateTo({
@@ -161,8 +137,7 @@ export default function AddDay() {
         })
     }
     return (
-        <View className="addDay" style={{backgroundImage: "url(http://q9zrzlbr5.bkt.clouddn.com/bg1.jpg)", backgroundSize: "cover"}}>
-            <View className="header">添加新的纪念日</View>
+        <View className="addDay" style={{backgroundImage: `url(${mainFormat})`, backgroundSize: "cover"}}>
             <View className="add_form">
                 <Form onSubmit={formSubmit}>
                     <View className="title">
@@ -213,4 +188,8 @@ export default function AddDay() {
             </View>
         </View>
     )
+}
+
+AddDay.config = {
+    "navigationBarTitleText": "添加事件"
 }
